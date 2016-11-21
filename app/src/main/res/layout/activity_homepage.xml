@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Homepage"
+    android:background="@android:color/background_light"
+    android:gravity="center">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPageAndroid"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_weight="2"
+             />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/windowBackgroundColor"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/menuButton"
+            android:onClick="menuButtonClick"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/feedback_image"
+                android:src="@drawable/menu_1"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/Menuimage" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/menu_button"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textStyle="normal|bold"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/Menuimage" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:padding="0dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/Special"
+            android:onClick="specialbuttonclick"
+            android:clickable="true"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/feedback_image"
+                android:src="@drawable/daily_specials_board"
+                android:id="@+id/SpecialImage" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/special_button"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="normal|bold"
+                android:layout_below="@+id/SpecialImage" />
+        </RelativeLayout>
+
+      <!--  <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/feedbackButton"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/Special"
+            android:layout_toEndOf="@+id/Special"
+            android:layout_alignTop="@+id/menuButton"
+            android:onClick="feedbackbuttonclick"
+            android:clickable="true"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_centerInParent="true"
+
+                android:layout_width="100dp"
+                android:layout_margin="0dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/feedback_image"
+                android:src="@drawable/ic_mood_24dp"
+                android:id="@+id/FeedBack" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/feedback_button"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="normal|bold"
+                android:layout_below="@+id/FeedBack" />
+        </RelativeLayout>-->
+
+        <RelativeLayout
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/AboutButton"
+            android:onClick="aboutButtonClick"
+            android:clickable="true"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="100dp"
+                android:layout_margin="0dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/feedback_image"
+                android:src="@drawable/cook"
+                android:id="@+id/AboutImage" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@string/about_button"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textStyle="normal|bold"
+                android:layout_below="@+id/AboutImage" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+   <!-- <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/footer"
+        android:visibility="invisible"
+        android:layout_alignParentRight="true"
+        android:background="@color/windowBackgroundColor"
+        android:layout_alignParentLeft="true"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:src="@mipmap/fb_icon"
+            android:id="@+id/facebook_button"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/windowBackgroundColor"
+            android:contentDescription="@string/fb_button"
+            android:longClickable="false"
+            android:onClick="fbButtonClick"
+            android:scaleType="centerInside" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:id="@+id/twitter_button"
+            android:layout_gravity="center"
+            android:layout_height="30dp"
+            android:src="@mipmap/twitter_icon"
+            android:layout_alignTop="@+id/facebook_button"
+            android:layout_toLeftOf="@+id/facebook_button"
+            android:layout_toStartOf="@+id/facebook_button"
+            android:layout_centerInParent="true"
+            android:background="@color/windowBackgroundColor"
+            android:contentDescription="@string/twitter"
+            android:onClick="twitterButtonClick"
+            android:scaleType="centerInside" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:src="@mipmap/call_icon"
+            android:id="@+id/phone_button"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="false"
+            android:layout_toRightOf="@+id/facebook_button"
+            android:layout_toEndOf="@+id/facebook_button"
+            android:layout_centerInParent="true"
+            android:background="@color/windowBackgroundColor"
+            android:contentDescription="@string/phone"
+            android:onClick="phoneButtonClick"
+            android:scaleType="centerInside" />
+
+    </RelativeLayout>-->
+
+</LinearLayout>

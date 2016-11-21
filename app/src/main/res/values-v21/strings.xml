@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feedback_button">Feedback</string>
+    <string name="special_button">Special</string>
+    <string name="menu_button">Menu</string>
+    <string name="twitter">twitter</string>
+    <string name="phone">phone</string>
+    <string name="about_button">About</string>
+    <string name="order">Order</string>
+    <string name="homepage">Home</string>
+</resources>

@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.FoodMenuActivity">
+    <item
+        android:id="@+id/action_cart"
+        android:orderInCategory="100"
+        android:title="@string/order"
+        android:icon="@drawable/clipboard"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_Home"
+        android:orderInCategory="100"
+        android:title="@string/homepage"
+        app:showAsAction="never" />
+</menu>
