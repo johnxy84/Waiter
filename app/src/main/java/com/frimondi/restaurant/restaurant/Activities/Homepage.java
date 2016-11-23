@@ -27,6 +27,12 @@ public class Homepage extends AppCompatActivity {
         timer.schedule(new UpdateTimeTask(), 5000, 5000);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
     public void menuButtonClick(View view) {
         Intent intent = new Intent(this, FoodMenuActivity.class);
         startActivity(intent);

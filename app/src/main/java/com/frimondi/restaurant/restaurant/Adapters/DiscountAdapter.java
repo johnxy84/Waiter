@@ -79,7 +79,7 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         FoodItems.FoodItem menuItem=itemList.get(position);
-        holder.discountTextView.setText("%"+menuItem.getPrice());
+        holder.discountTextView.setText("₦"+menuItem.getPrice());
         holder.titleTextView.setText(menuItem.getFoodName());
         Picasso.with(context).load(menuItem.getImageUrl())
                 .placeholder(R.drawable.ic_add_circle_outline_24dp)

@@ -77,9 +77,6 @@ public class DiscountActivity extends AppCompatActivity {
     void prepareDiscountList()
     {
         itemList=new ArrayList<>();
-        itemList=Preferences
-                .getFoodItems(getApplicationContext())
-                .getFoodItems();
         for (FoodItems.FoodItem item: Preferences
                 .getFoodItems(getApplicationContext())
                 //getfoodList from the fooditem class

@@ -111,7 +111,7 @@ public class FoodMenuActivity extends AppCompatActivity {
         {
             switch (item.getCategoryName())
             {
-                case "Foods":
+                case "Food":
                     foodItemList.add(item);
                     break;
                 case "Drinks":

@@ -47,7 +47,7 @@ public class Preferences {
         final SharedPreferences settings = context.getSharedPreferences(
                 PREFS_NAME, 0);
 
-//        isSignedIn = settings.getBoolean("isSignedIn", Preferences.isSignedIn);
+        isSignedIn = settings.getBoolean("isSignedIn", Preferences.isSignedIn);
 //
 //        userId = settings.getInt("userId", userId);
 

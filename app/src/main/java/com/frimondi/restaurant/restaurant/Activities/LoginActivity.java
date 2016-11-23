@@ -90,6 +90,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Preferences.loadSettings(this);
+        if(Preferences.isSignedIn){
+            LaunchApp();
+        }
         datasource= new LocalDataSource(this);
         datasource.open();
         datasource.clearTable();
@@ -349,11 +353,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void success(User user, Response response) {
                         Preferences.loadSettings(LoginActivity.this);
-                        Preferences.isSignedIn=true;
                         Gson gson = new Gson();
-                       // String json = gson.toJson(user);
-                       // Log.w("Tag", "Here's your response " + json);
+                        String json = gson.toJson(user);
+                        Log.w("Tag", "Here's your response " + json);
                         Preferences.token = "Bearer " + user.token;
+                        Preferences.isSignedIn = true;
                         Preferences.saveSettings(LoginActivity.this);
 
                         //getting food items
@@ -388,7 +392,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 });
 
             // TODO: register the new account here.
-
+            Preferences.loadSettings(LoginActivity.this);
             return Preferences.isSignedIn;
         }
 
@@ -398,7 +402,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
             String errorMessage="There was an error, Please check your Login details";
 
-            if (success) {
+            Preferences.loadSettings(LoginActivity.this);
+            if (Preferences.isSignedIn) {
                 //Launch app activity here
                 LaunchApp();
             }
