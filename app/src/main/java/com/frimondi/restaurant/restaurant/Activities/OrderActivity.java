@@ -19,12 +19,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.frimondi.restaurant.restaurant.Adapters.OrderAdapter;
 import com.frimondi.restaurant.restaurant.Database.LocalDataSource;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
-<<<<<<< HEAD
 import com.frimondi.restaurant.restaurant.Models.OrderDetails;
 import com.frimondi.restaurant.restaurant.Models.OrderItemDetails;
 import com.frimondi.restaurant.restaurant.MyMenuItem;
-=======
->>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
 import com.frimondi.restaurant.restaurant.R;
 import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
 import com.frimondi.restaurant.restaurant.Services.ServiceClient;
@@ -130,23 +127,13 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     //Sending Logic goes here
                     switch (tableNumber) {
                         default:
-<<<<<<< HEAD
                             itemList = new ArrayList<>();
                             itemList = dataSource.getAllItems();
-                            makeOrder("table " + Integer.toString(which + 1), itemList, table, dataSource, adapter);
+                            makeOrder("table " + Integer.toString(tableNumber + 1), itemList, table, dataSource, adapter);
 //                            Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
 //                            dataSource.clearTable();
 //                            itemList.clear();
 //                            adapter.notifyDataSetChanged();
-=======
-                            Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
-                            dataSource.clearTable();
-                            itemList.clear();
-                            adapter.notifyDataSetChanged();
-
-                            //Perform Post here, 'tableNumber' contains the table index
-
->>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
                             break;
                     }
                 }
