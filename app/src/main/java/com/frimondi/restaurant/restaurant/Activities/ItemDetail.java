@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.frimondi.restaurant.restaurant.Database.LocalDataSource;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
-import com.frimondi.restaurant.restaurant.MyMenuItem;
 import com.frimondi.restaurant.restaurant.R;
 import com.squareup.picasso.Picasso;
 
@@ -92,7 +91,7 @@ public class ItemDetail extends AppCompatActivity {
         Intent intent;
         switch (id)
         {
-            case R.id.action_Home:
+            case R.id.action_home:
                 startActivity(new Intent(this, Homepage.class));
                 break;
             case R.id.action_cart:

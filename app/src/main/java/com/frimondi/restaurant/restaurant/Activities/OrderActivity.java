@@ -19,9 +19,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.frimondi.restaurant.restaurant.Adapters.OrderAdapter;
 import com.frimondi.restaurant.restaurant.Database.LocalDataSource;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
+<<<<<<< HEAD
 import com.frimondi.restaurant.restaurant.Models.OrderDetails;
 import com.frimondi.restaurant.restaurant.Models.OrderItemDetails;
 import com.frimondi.restaurant.restaurant.MyMenuItem;
+=======
+>>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
 import com.frimondi.restaurant.restaurant.R;
 import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
 import com.frimondi.restaurant.restaurant.Services.ServiceClient;
@@ -91,7 +94,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         Intent intent;
         switch (id)
         {
-            case R.id.action_Home:
+            case R.id.action_home:
                 intent=new Intent(this, Homepage.class);
                 startActivity(intent);
         }
@@ -111,9 +114,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         }
         else
             Snackbar.make(findViewById(R.id.RelativeLayout), "Your Order is empty", Snackbar.LENGTH_SHORT).show();
-
-
-
     }
 
     //Confirm Order
@@ -124,14 +124,13 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("What table is this?").setItems(R.array.table_list, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //where 'which' is the table number
-                    String table = "Order for Table" + Integer.toString(which + 1) + " has been sent.";
-
+                public void onClick(DialogInterface dialog, int tableNumber) {
+                    //where 'tableNumber' is the table number
+                    String table = "Order for Table" + Integer.toString(tableNumber + 1) + " has been sent.";
                     //Sending Logic goes here
-
-                    switch (which) {
+                    switch (tableNumber) {
                         default:
+<<<<<<< HEAD
                             itemList = new ArrayList<>();
                             itemList = dataSource.getAllItems();
                             makeOrder("table " + Integer.toString(which + 1), itemList, table, dataSource, adapter);
@@ -139,6 +138,15 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 //                            dataSource.clearTable();
 //                            itemList.clear();
 //                            adapter.notifyDataSetChanged();
+=======
+                            Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
+                            dataSource.clearTable();
+                            itemList.clear();
+                            adapter.notifyDataSetChanged();
+
+                            //Perform Post here, 'tableNumber' contains the table index
+
+>>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
                             break;
                     }
                 }

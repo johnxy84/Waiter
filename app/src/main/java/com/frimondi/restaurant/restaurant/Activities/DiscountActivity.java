@@ -19,10 +19,6 @@ import java.util.List;
 
 public class DiscountActivity extends AppCompatActivity {
 
-    private String [] specialTitleList= new String[]{"Okra Soup","Fanta","Rice","Hamburger","Pounded Yam","Sprite"};
-    private String detail=
-            "This is the detail of the item, it is just dummy text.\n"+"This is the detail of the item, it is just dummy text.";
-    private int [] specialDiscountList=new int[]{20,33,21,40,50,30};
     private List<FoodItems.FoodItem>itemList;
 
     @Override
@@ -66,7 +62,7 @@ public class DiscountActivity extends AppCompatActivity {
         Intent intent;
         switch (id)
         {
-            case R.id.action_Home:
+            case R.id.action_home:
                 intent=new Intent(this, Homepage.class);
                 startActivity(intent);
         }
