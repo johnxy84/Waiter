@@ -88,7 +88,7 @@ public class FoodMenuActivity extends AppCompatActivity {
                 intent=new Intent(this, OrderActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.action_Home:
+            case R.id.action_home:
                 intent=new Intent(this, Homepage.class);
                 startActivity(intent);
         }

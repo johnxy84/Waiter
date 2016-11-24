@@ -369,12 +369,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                 //save the json to a list of food
                                 Preferences.saveFoodItems(getApplicationContext(), foodItems);
-                               /* List<FoodItems.FoodItem> foodList= Preferences
-                                        .getFoodItems(getApplicationContext())
-                                        .getFoodItems();
-                                Gson gson = new Gson();
-                                String json = gson.toJson(foodItems);
-                                Log.w("Fooditems", "Here's your response " + json);*/
                             }
 
                             @Override

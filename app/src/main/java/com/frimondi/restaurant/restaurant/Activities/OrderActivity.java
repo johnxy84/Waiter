@@ -17,7 +17,6 @@ import android.widget.Button;
 import com.frimondi.restaurant.restaurant.Adapters.OrderAdapter;
 import com.frimondi.restaurant.restaurant.Database.LocalDataSource;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
-import com.frimondi.restaurant.restaurant.MyMenuItem;
 import com.frimondi.restaurant.restaurant.R;
 
 import java.util.ArrayList;
@@ -77,7 +76,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         Intent intent;
         switch (id)
         {
-            case R.id.action_Home:
+            case R.id.action_home:
                 intent=new Intent(this, Homepage.class);
                 startActivity(intent);
         }
@@ -97,9 +96,6 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         }
         else
             Snackbar.make(findViewById(R.id.RelativeLayout), "Your Order is empty", Snackbar.LENGTH_SHORT).show();
-
-
-
     }
 
     //Confirm Order
@@ -110,18 +106,19 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Which table is this?").setItems(R.array.table_list, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //where 'which' is the table number
-                    String table = "Order for Table" + Integer.toString(which + 1) + " has been sent.";
-
+                public void onClick(DialogInterface dialog, int tableNumber) {
+                    //where 'tableNumber' is the table number
+                    String table = "Order for Table" + Integer.toString(tableNumber + 1) + " has been sent.";
                     //Sending Logic goes here
-
-                    switch (which) {
+                    switch (tableNumber) {
                         default:
                             Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
                             dataSource.clearTable();
                             itemList.clear();
                             adapter.notifyDataSetChanged();
+
+                            //Perform Post here, 'tableNumber' contains the table index
+
                             break;
                     }
                 }
