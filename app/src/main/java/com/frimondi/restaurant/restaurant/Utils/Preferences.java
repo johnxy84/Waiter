@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
+import com.frimondi.restaurant.restaurant.Models.OrderDetails;
 import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
 import com.frimondi.restaurant.restaurant.Services.ServiceClient;
 import com.google.gson.Gson;
@@ -103,6 +104,25 @@ public class Preferences {
         Gson gson = new Gson();
         String json = settings.getString("items", "");
         FoodItems obj = gson.fromJson(json, FoodItems.class);
+        return obj;
+    }
+
+    public static void saveOrderDetails(Context context, OrderDetails orderDetails){
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(orderDetails);
+        editor.putString("orderdetails", json);
+        editor.apply();
+    }
+
+    public static OrderDetails getOrderDetails(Context context){
+        final SharedPreferences settings = context.getSharedPreferences(
+                PREFS_NAME, 0);
+        Gson gson = new Gson();
+        String json = settings.getString("orderdetails", "");
+        OrderDetails obj = gson.fromJson(json, OrderDetails.class);
         return obj;
     }
 

@@ -359,29 +359,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Preferences.token = "Bearer " + user.token;
                         Preferences.isSignedIn = true;
                         Preferences.saveSettings(LoginActivity.this);
-
-                        //getting food items
-                       FrimondiClient client1 = ServiceClient.getInstance()
-                                .getClient(LoginActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
-                        client1.getFoodItems(Preferences.token, new Callback<FoodItems>() {
-                            @Override
-                            public void success(FoodItems foodItems, Response response) {
-
-                                //save the json to a list of food
-                                Preferences.saveFoodItems(getApplicationContext(), foodItems);
-                               /* List<FoodItems.FoodItem> foodList= Preferences
-                                        .getFoodItems(getApplicationContext())
-                                        .getFoodItems();
-                                Gson gson = new Gson();
-                                String json = gson.toJson(foodItems);
-                                Log.w("Fooditems", "Here's your response " + json);*/
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.w("Fooditems", "getFood error response " + error.toString());
-                            }
-                        });
                     }
 
                     @Override

@@ -10,16 +10,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.frimondi.restaurant.restaurant.Fragments.CategoryFragment;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
 import com.frimondi.restaurant.restaurant.R;
+import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
+import com.frimondi.restaurant.restaurant.Services.ServiceClient;
 import com.frimondi.restaurant.restaurant.Utils.Preferences;
+import com.frimondi.restaurant.restaurant.Utils.RestConstant;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class FoodMenuActivity extends AppCompatActivity {
 
@@ -58,6 +67,7 @@ public class FoodMenuActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        getFoodItems();
         prepareItemsList();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -94,6 +104,37 @@ public class FoodMenuActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getFoodItems(){
+        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Getting stuff from the kitchen")
+                .content("Please wait while we retrieve the latest items from the kitchen :)")
+                .progress(true, 0)
+                .show();
+        //getting food items
+        FrimondiClient client1 = ServiceClient.getInstance()
+                .getClient(FoodMenuActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
+        client1.getFoodItems(Preferences.token, new Callback<FoodItems>() {
+            @Override
+            public void success(FoodItems foodItems, Response response) {
+                dialog.dismiss();
+                //save the json to a list of food
+                Preferences.saveFoodItems(getApplicationContext(), foodItems);
+                               /* List<FoodItems.FoodItem> foodList= Preferences
+                                        .getFoodItems(getApplicationContext())
+                                        .getFoodItems();
+                                Gson gson = new Gson();
+                                String json = gson.toJson(foodItems);
+                                Log.w("Fooditems", "Here's your response " + json);*/
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                dialog.dismiss();
+                Log.w("Fooditems", "getFood error response " + error.toString());
+            }
+        });
     }
 
     //Populates the list of food
