@@ -91,6 +91,7 @@ public class ServiceClient {
                     .setEndpoint(getBaseUrl(context, domainPath))
                     .setRequestInterceptor(requestInterceptor)
                     .setConverter(new GsonConverter(gson))
+                    .setLogLevel(RestAdapter.LogLevel.FULL) // this is the important line
                     .build();
             mRestAdapters.put(domainPath, mRestAdapter);
         }

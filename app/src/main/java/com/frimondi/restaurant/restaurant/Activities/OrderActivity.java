@@ -135,18 +135,19 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                     .content("Please wait while we send the order to the kitchen :)")
                                     .progress(true, 0)
                                     .show();
-                            makeOrder("table " + Integer.toString(tableNumber + 1), itemList, table, dataSource, adapter);
-                            OrderDetails orderDetails = Preferences.getOrderDetails(getApplicationContext());
-                            Gson gson = new Gson();
-                            String json = gson.toJson(orderDetails);
-                            Log.w(TAG, "testId: "  +  json);
-                            for (FoodItems.FoodItem item : itemList){
-                                createOrderItems(item, Integer.parseInt(orderDetails.Id));
+
+                            makeOrder("table " + Integer.toString(tableNumber + 1), itemList, dialogue);
+                            Preferences.loadOrderBool(OrderActivity.this);
+                            if(Preferences.isOrderMade){
+                                int orderId = Integer.parseInt(Preferences.getOrderDetails(OrderActivity.this).id);
+                                //createOrderItems(itemList, orderId);
                             }
                             Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
 
                             dialogue.dismiss();
-                            ClearOrder();
+//                            dataSource.clearTable();
+//                            itemList.clear();
+//                            adapter.notifyDataSetChanged();
                             break;
                     }
                 }
@@ -166,44 +167,64 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void makeOrder(String table, final List<FoodItems.FoodItem> itemList,
-                          final String message, final LocalDataSource dataSource, final OrderAdapter adapter){
-        //getting food items
-        //Preferences.loadSettings(OrderActivity.this);
+    public void makeOrder(String table, final List<FoodItems.FoodItem> itemList, final MaterialDialog dialogue){
+        Log.w(TAG, "makeOrder: Item List initial size " + itemList.size() );
         FrimondiClient client = ServiceClient.getInstance()
-                .getClient(OrderActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
-        client.makeOrder(Preferences.token, table, new Callback<OrderDetails>() {
+                .getClient(getApplicationContext(), FrimondiClient.class, RestConstant.DOMAIN);
+
+        client.createOrder(Preferences.token, table, new Callback<OrderDetails>() {
             @Override
             public void success(OrderDetails orderDetails, Response response) {
+                //dialogue.dismiss();
                 Gson gson = new Gson();
                 String json = gson.toJson(orderDetails);
                 Log.w(TAG, "success: " + json );
                 Preferences.saveOrderDetails(OrderActivity.this, orderDetails);
+                Preferences.isOrderMade = true;
+                Preferences.saveOrderBool(OrderActivity.this);
+                createOrderItems(Integer.parseInt(orderDetails.id));
             }
 
             @Override
             public void failure(RetrofitError error) {
+                //dialogue.dismiss();
                 Log.e(TAG, "failure: " + error.getMessage() );
             }
         });
     }
 
-    public void createOrderItems(FoodItems.FoodItem item, int orderId){
+    int i = 0;
+    public void createOrderItems(final int orderId){
+        itemList = new ArrayList<>();
+        itemList = dataSource.getAllItems();
+
+        if(i >= itemList.size()){
+            dataSource.clearTable();
+            itemList.clear();
+            adapter.notifyDataSetChanged();
+            return; //loop is finished;
+        }
+
+        //createOrderItems(itemList.get(i), Integer.parseInt(orderDetails.id));
         FrimondiClient client = ServiceClient.getInstance()
                 .getClient(OrderActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
-        int itemId = Integer.parseInt(item.getId());
-        client.createOrderItem(Preferences.token, orderId+1, itemId,
-                item.getQuantity(), new Callback<OrderItemDetails>() {
-            @Override
-            public void success(OrderItemDetails orderItemDetails, Response response) {
-                Log.w(TAG, "success: Order Item Added");
-            }
+        int itemId = Integer.parseInt(itemList.get(i).getId());
+        client.createOrderItem(Preferences.token, orderId, itemId,
+                itemList.get(i).getQuantity(), new Callback<OrderItemDetails>() {
+                    @Override
+                    public void success(OrderItemDetails orderItemDetails, Response response) {
+                        Log.w(TAG, "success: Order Item Added");
+                        i++;
+                        createOrderItems(Integer.parseInt(Preferences.getOrderDetails(OrderActivity.this).id));
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "failure: error adding order item " + error.getMessage() );
-            }
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, "failure: error adding order item " + error.getMessage() );
+                    }
+                });
+
+
     }
 
     @Override

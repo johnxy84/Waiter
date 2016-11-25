@@ -143,7 +143,7 @@ public class OrderActivity1 extends AppCompatActivity implements View.OnClickLis
                             String json = gson.toJson(orderDetails);
                             Log.w(TAG, "testId: "  +  json);
                             for (FoodItems.FoodItem item : itemList){
-                                createOrderItems(item, Integer.parseInt(orderDetails.Id));
+                                createOrderItems(item, Integer.parseInt(orderDetails.id));
                             }
                             Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
                             itemList.clear();
@@ -172,7 +172,6 @@ public class OrderActivity1 extends AppCompatActivity implements View.OnClickLis
     public void makeOrder(String table, final List<FoodItems.FoodItem> itemList,
                           final String message, final LocalDataSource dataSource, final OrderAdapter adapter){
         //getting food items
-        //Preferences.loadSettings(OrderActivity.this);
         FrimondiClient client = ServiceClient.getInstance()
                 .getClient(OrderActivity1.this, FrimondiClient.class, RestConstant.DOMAIN);
         client.makeOrder(Preferences.token, table, new Callback<OrderDetails>() {

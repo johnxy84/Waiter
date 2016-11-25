@@ -32,11 +32,15 @@ public interface FrimondiClient {
 
     @FormUrlEncoded
     @POST("/api/v1/orders")
-    void makeOrder(@Header("Authorization")String token, @Field("table") String table, Callback<OrderDetails> callback);
+    void makeOrder(@Header("Authorization") String token, @Field("table") String table, Callback<OrderDetails> callback);
+
+    @FormUrlEncoded
+    @POST("/api/v1/orders")
+    void createOrder(@Header("Authorization") String token, @Field("table") String table, Callback<OrderDetails> callback);
 
     @FormUrlEncoded
     @POST("/api/v1/orderitems")
-    void createOrderItem(@Header("Authorization")String token, @Field("order_id") int orderId,
+    void createOrderItem(@Header("Authorization") String token, @Field("order_id") int orderId,
                    @Field("fooditem_id") int fooditemId, @Field("qty") int quantity,
                          Callback<OrderItemDetails> callback);
 

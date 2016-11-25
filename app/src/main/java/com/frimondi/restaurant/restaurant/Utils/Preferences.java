@@ -42,6 +42,8 @@ public class Preferences {
 
     public static boolean isSignedIn = false;
 
+    public static boolean isOrderMade = false;
+
     public static String username = "";
 
     public static void loadSettings(Context context) {
@@ -62,6 +64,13 @@ public class Preferences {
 
     }
 
+    public static void loadOrderBool(Context context){
+        final SharedPreferences settings = context.getSharedPreferences(
+                PREFS_NAME, 0);
+
+        isOrderMade = settings.getBoolean("isOrderMade", isOrderMade);
+    }
+
     public static void  clear(Context context){
         settings = context.getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
@@ -72,6 +81,12 @@ public class Preferences {
         return s != null && !"".equals(s);
     }
 
+    public static void saveOrderBool(Context context){
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+
+        editor.putBoolean("isOrderMade", isOrderMade);
+    }
 
     public static void saveSettings(Context context) {
         settings = context.getSharedPreferences(PREFS_NAME, 0);
@@ -81,6 +96,7 @@ public class Preferences {
         editor.putBoolean("isSignedIn", isSignedIn);
 //        editor.putInt("userId", userId);
         editor.putString("token", token);
+
         // editor.putString("domain", domain);
         // editor.putString("username", username);
 
