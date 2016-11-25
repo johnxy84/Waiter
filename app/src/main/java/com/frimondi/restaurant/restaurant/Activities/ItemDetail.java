@@ -110,7 +110,7 @@ public class ItemDetail extends AppCompatActivity {
         dataSource = new LocalDataSource(this);
         dataSource.open();
         dataSource.createItem(item, Integer.parseInt(Quantity));
-        UpdateItemDetails();
+        //UpdateItemDetails();
     }
     void UpdateItemDetails()
     {

@@ -65,6 +65,9 @@ public class DiscountActivity extends AppCompatActivity {
             case R.id.action_home:
                 intent=new Intent(this, Homepage.class);
                 startActivity(intent);
+            case R.id.action_cart:
+                intent=new Intent(this, OrderActivity.class);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

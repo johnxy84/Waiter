@@ -69,7 +69,7 @@ public class Homepage extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.action_home:
+            case R.id.action_logout:
                 new MaterialDialog.Builder(this)
                         .title("Signing you out")
                         .content("Please wait while we Sign you out :)")

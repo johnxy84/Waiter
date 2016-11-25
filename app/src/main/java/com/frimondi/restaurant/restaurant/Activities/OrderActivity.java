@@ -40,7 +40,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     private List<FoodItems.FoodItem> itemList;
     private LocalDataSource dataSource;
-    private OrderAdapter adapter;
+    public OrderAdapter adapter;
 
     private static String TAG = OrderActivity.class.getSimpleName();
 
@@ -128,13 +128,12 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     //Sending Logic goes here
                     switch (tableNumber) {
                         default:
-                            itemList = new ArrayList<>();
-                            itemList = dataSource.getAllItems();
                             final MaterialDialog dialogue = new MaterialDialog.Builder(OrderActivity.this)
                                     .title("Placing your order")
                                     .content("Please wait while we send the order to the kitchen :)")
                                     .progress(true, 0)
                                     .show();
+
 
                             makeOrder("table " + Integer.toString(tableNumber + 1), itemList, dialogue);
                             Preferences.loadOrderBool(OrderActivity.this);
@@ -143,11 +142,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                 //createOrderItems(itemList, orderId);
                             }
                             Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
-
                             dialogue.dismiss();
-//                            dataSource.clearTable();
-//                            itemList.clear();
-//                            adapter.notifyDataSetChanged();
                             break;
                     }
                 }
@@ -195,8 +190,9 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     int i = 0;
     public void createOrderItems(final int orderId){
-        itemList = new ArrayList<>();
-        itemList = dataSource.getAllItems();
+        //Not needed
+//        itemList = new ArrayList<>();
+//        itemList = dataSource.getAllItems();
 
         if(i >= itemList.size()){
             dataSource.clearTable();
