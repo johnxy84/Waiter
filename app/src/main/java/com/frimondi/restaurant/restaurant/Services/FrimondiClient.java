@@ -3,6 +3,7 @@ package com.frimondi.restaurant.restaurant.Services;
 import android.text.Editable;
 
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
+import com.frimondi.restaurant.restaurant.Models.Logout;
 import com.frimondi.restaurant.restaurant.Models.OrderDetails;
 import com.frimondi.restaurant.restaurant.Models.OrderItemDetails;
 import com.frimondi.restaurant.restaurant.Models.User;
@@ -10,6 +11,7 @@ import com.frimondi.restaurant.restaurant.Models.User;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -37,6 +39,10 @@ public interface FrimondiClient {
     void createOrderItem(@Header("Authorization")String token, @Field("order_id") int orderId,
                    @Field("fooditem_id") int fooditemId, @Field("qty") int quantity,
                          Callback<OrderItemDetails> callback);
+
+    @FormUrlEncoded
+    @POST("/api/v1/invalidate")
+    void invalidateUser(@Field("token")String token, Callback<Logout> callback);
 
 
 }

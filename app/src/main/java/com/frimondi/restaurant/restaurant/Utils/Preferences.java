@@ -108,6 +108,7 @@ public class Preferences {
     }
 
     public static void saveOrderDetails(Context context, OrderDetails orderDetails){
+        Log.w(TAG, "saveOrderDetails: Order details saved" );
         settings = context.getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
 

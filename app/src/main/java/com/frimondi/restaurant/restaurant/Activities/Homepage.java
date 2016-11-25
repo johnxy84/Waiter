@@ -3,27 +3,23 @@ package com.frimondi.restaurant.restaurant.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.util.Log;
-=======
 import android.view.Menu;
 import android.view.MenuItem;
->>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
 import android.view.View;
 import android.support.v4.view.ViewPager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.frimondi.restaurant.restaurant.HomepageSlider;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
+import com.frimondi.restaurant.restaurant.Models.Logout;
+import com.frimondi.restaurant.restaurant.Models.OrderItemDetails;
 import com.frimondi.restaurant.restaurant.R;
-<<<<<<< HEAD
 import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
 import com.frimondi.restaurant.restaurant.Services.ServiceClient;
 import com.frimondi.restaurant.restaurant.Utils.Preferences;
 import com.frimondi.restaurant.restaurant.Utils.RestConstant;
-=======
 import com.frimondi.restaurant.restaurant.Utils.Preferences;
->>>>>>> 44998d8aca7b05ff7574dfb880e69a972c729fe1
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,10 +31,12 @@ import retrofit.client.Response;
 public class Homepage extends AppCompatActivity {
     private ViewPager mViewPager;
     HomepageSlider adapterView;
+    private static String TAG = Homepage.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Preferences.loadSettings(Homepage.this);
         setContentView(R.layout.activity_homepage);
         getFoodItems();
         mViewPager = (ViewPager) findViewById(R.id.viewPageAndroid);
@@ -72,8 +70,33 @@ public class Homepage extends AppCompatActivity {
         switch (id)
         {
             case R.id.action_home:
-                Preferences.loadSettings(Homepage.this);
-                Preferences.isSignedIn=false;
+                new MaterialDialog.Builder(this)
+                        .title("Signing you out")
+                        .content("Please wait while we Sign you out :)")
+                        .progress(true, 0)
+                        .show();
+                FrimondiClient client = ServiceClient.getInstance()
+                        .getClient(Homepage.this, FrimondiClient.class, RestConstant.DOMAIN);
+                String token = Preferences.token;
+                token = token.replace("Bearer ", "");
+                Log.w(TAG, "onOptionsItemSelected:" + token );
+                client.invalidateUser(token, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout logout, Response response) {
+                        Log.w(TAG, "success:  Logging out " + logout.getMessage());
+                        Preferences.loadSettings(Homepage.this);
+                        Preferences.isSignedIn=false;
+                        Preferences.token = "";
+                        Preferences.saveSettings(Homepage.this);
+                        Intent intent= new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, "failure: " + error.getMessage() );
+                    }
+                });
         }
 
         return super.onOptionsItemSelected(item);

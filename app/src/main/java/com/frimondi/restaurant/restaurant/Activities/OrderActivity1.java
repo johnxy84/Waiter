@@ -21,7 +21,6 @@ import com.frimondi.restaurant.restaurant.Database.LocalDataSource;
 import com.frimondi.restaurant.restaurant.Models.FoodItems;
 import com.frimondi.restaurant.restaurant.Models.OrderDetails;
 import com.frimondi.restaurant.restaurant.Models.OrderItemDetails;
-import com.frimondi.restaurant.restaurant.MyMenuItem;
 import com.frimondi.restaurant.restaurant.R;
 import com.frimondi.restaurant.restaurant.Services.FrimondiClient;
 import com.frimondi.restaurant.restaurant.Services.ServiceClient;
@@ -36,13 +35,16 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OrderActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * Created by lawrence on 11/25/16.
+ */
+public class OrderActivity1 extends AppCompatActivity implements View.OnClickListener {
 
     private List<FoodItems.FoodItem> itemList;
     private LocalDataSource dataSource;
     private OrderAdapter adapter;
 
-    private static String TAG = OrderActivity.class.getSimpleName();
+    private static String TAG = OrderActivity1.class.getSimpleName();
 
 
     @Override
@@ -105,10 +107,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     {
         if (!dataSource.isTableEmpty())
         {
-        dataSource.clearTable();
-        itemList.clear();
-        adapter.notifyDataSetChanged();
-        Snackbar.make(findViewById(R.id.RelativeLayout), "Your Order has been cleared", Snackbar.LENGTH_SHORT).show();
+            dataSource.clearTable();
+            itemList.clear();
+            adapter.notifyDataSetChanged();
+            Snackbar.make(findViewById(R.id.RelativeLayout), "Your Order has been cleared", Snackbar.LENGTH_SHORT).show();
         }
         else
             Snackbar.make(findViewById(R.id.RelativeLayout), "Your Order is empty", Snackbar.LENGTH_SHORT).show();
@@ -130,7 +132,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                         default:
                             itemList = new ArrayList<>();
                             itemList = dataSource.getAllItems();
-                            final MaterialDialog dialogue = new MaterialDialog.Builder(OrderActivity.this)
+                            final MaterialDialog dialogue = new MaterialDialog.Builder(OrderActivity1.this)
                                     .title("Placing your order")
                                     .content("Please wait while we send the order to the kitchen :)")
                                     .progress(true, 0)
@@ -144,9 +146,10 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                                 createOrderItems(item, Integer.parseInt(orderDetails.Id));
                             }
                             Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
-
+                            itemList.clear();
+                            dataSource.clearTable();
+                            adapter.notifyDataSetChanged();
                             dialogue.dismiss();
-                            ClearOrder();
                             break;
                     }
                 }
@@ -171,14 +174,14 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
         //getting food items
         //Preferences.loadSettings(OrderActivity.this);
         FrimondiClient client = ServiceClient.getInstance()
-                .getClient(OrderActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
+                .getClient(OrderActivity1.this, FrimondiClient.class, RestConstant.DOMAIN);
         client.makeOrder(Preferences.token, table, new Callback<OrderDetails>() {
             @Override
             public void success(OrderDetails orderDetails, Response response) {
                 Gson gson = new Gson();
                 String json = gson.toJson(orderDetails);
                 Log.w(TAG, "success: " + json );
-                Preferences.saveOrderDetails(OrderActivity.this, orderDetails);
+                Preferences.saveOrderDetails(OrderActivity1.this, orderDetails);
             }
 
             @Override
@@ -190,20 +193,20 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     public void createOrderItems(FoodItems.FoodItem item, int orderId){
         FrimondiClient client = ServiceClient.getInstance()
-                .getClient(OrderActivity.this, FrimondiClient.class, RestConstant.DOMAIN);
+                .getClient(OrderActivity1.this, FrimondiClient.class, RestConstant.DOMAIN);
         int itemId = Integer.parseInt(item.getId());
         client.createOrderItem(Preferences.token, orderId+1, itemId,
                 item.getQuantity(), new Callback<OrderItemDetails>() {
-            @Override
-            public void success(OrderItemDetails orderItemDetails, Response response) {
-                Log.w(TAG, "success: Order Item Added");
-            }
+                    @Override
+                    public void success(OrderItemDetails orderItemDetails, Response response) {
+                        Log.w(TAG, "success: Order Item Added");
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "failure: error adding order item " + error.getMessage() );
-            }
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, "failure: error adding order item " + error.getMessage() );
+                    }
+                });
     }
 
     @Override
