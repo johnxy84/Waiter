@@ -79,6 +79,13 @@ public class Homepage extends AppCompatActivity {
                         .getClient(Homepage.this, FrimondiClient.class, RestConstant.DOMAIN);
                 String token = Preferences.token;
                 token = token.replace("Bearer ", "");
+
+                Preferences.loadSettings(Homepage.this);
+//                Preferences.isSignedIn=false;
+//                Preferences.token = "";
+//                Preferences.saveSettings(Homepage.this);
+
+
                 Log.w(TAG, "onOptionsItemSelected:" + token );
                 client.invalidateUser(token, new Callback<Logout>() {
                     @Override
@@ -88,6 +95,7 @@ public class Homepage extends AppCompatActivity {
                         Preferences.isSignedIn=false;
                         Preferences.token = "";
                         Preferences.saveSettings(Homepage.this);
+                        Preferences.clear(Homepage.this);
                         Intent intent= new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
                     }
@@ -96,7 +104,11 @@ public class Homepage extends AppCompatActivity {
                     public void failure(RetrofitError error) {
                         Log.e(TAG, "failure: " + error.getMessage() );
                     }
+
+
                 });
+//                Intent intent= new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

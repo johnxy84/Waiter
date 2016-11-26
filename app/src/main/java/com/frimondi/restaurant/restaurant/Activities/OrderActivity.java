@@ -124,25 +124,16 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onClick(DialogInterface dialog, int tableNumber) {
                     //where 'tableNumber' is the table number
-                    String table = "Order for Table " + Integer.toString(tableNumber + 1) + " has been sent.";
                     //Sending Logic goes here
                     switch (tableNumber) {
                         default:
-                            final MaterialDialog dialogue = new MaterialDialog.Builder(OrderActivity.this)
-                                    .title("Placing your order")
-                                    .content("Please wait while we send the order to the kitchen :)")
-                                    .progress(true, 0)
-                                    .show();
-
-
-                            makeOrder("table " + Integer.toString(tableNumber + 1), itemList, dialogue);
+                            makeOrder("table " + Integer.toString(tableNumber + 1), itemList,tableNumber);
                             Preferences.loadOrderBool(OrderActivity.this);
                             if(Preferences.isOrderMade){
                                 int orderId = Integer.parseInt(Preferences.getOrderDetails(OrderActivity.this).id);
                                 //createOrderItems(itemList, orderId);
                             }
-                            Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
-                            dialogue.dismiss();
+//
                             break;
                     }
                 }
@@ -162,7 +153,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void makeOrder(String table, final List<FoodItems.FoodItem> itemList, final MaterialDialog dialogue){
+    public void makeOrder(String table, final List<FoodItems.FoodItem> itemList, final int tablenum){
         Log.w(TAG, "makeOrder: Item List initial size " + itemList.size() );
         FrimondiClient client = ServiceClient.getInstance()
                 .getClient(getApplicationContext(), FrimondiClient.class, RestConstant.DOMAIN);
@@ -177,7 +168,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                 Preferences.saveOrderDetails(OrderActivity.this, orderDetails);
                 Preferences.isOrderMade = true;
                 Preferences.saveOrderBool(OrderActivity.this);
-                createOrderItems(Integer.parseInt(orderDetails.id));
+                createOrderItems(Integer.parseInt(orderDetails.id), tablenum);
             }
 
             @Override
@@ -189,16 +180,16 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
     }
 
     int i = 0;
-    public void createOrderItems(final int orderId){
-        //Not needed
-//        itemList = new ArrayList<>();
-//        itemList = dataSource.getAllItems();
+    public void createOrderItems(final int orderId, final int tablenum){
 
         if(i >= itemList.size()){
             dataSource.clearTable();
             itemList.clear();
             adapter.notifyDataSetChanged();
-            return; //loop is finished;
+            String table = "Order for Table " + Integer.toString(tablenum + 1) + " has been sent.";
+            Snackbar.make(findViewById(R.id.RelativeLayout), table, Snackbar.LENGTH_SHORT).show();
+            return;
+            //loop is finished;
         }
 
         //createOrderItems(itemList.get(i), Integer.parseInt(orderDetails.id));
@@ -211,7 +202,7 @@ public class OrderActivity extends AppCompatActivity implements View.OnClickList
                     public void success(OrderItemDetails orderItemDetails, Response response) {
                         Log.w(TAG, "success: Order Item Added");
                         i++;
-                        createOrderItems(Integer.parseInt(Preferences.getOrderDetails(OrderActivity.this).id));
+                        createOrderItems(Integer.parseInt(Preferences.getOrderDetails(OrderActivity.this).id),tablenum);
                     }
 
                     @Override
